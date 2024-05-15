@@ -1,0 +1,26 @@
+{
+  "name": "first-api",
+  "version": "1.0.0",
+  "description": "API tic trilhas",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./",
+    "start:dev": "nodemon"
+  },
+  "type":"module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasEPaduam/Node_API_TicTrilhas.git"
+  },
+  "keywords": [
+    "primeira",
+    "api"
+  ],
+  "author": "LucasPaduam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucasEPaduam/Node_API_TicTrilhas/issues"
+  },
+  "homepage": "https://github.com/LucasEPaduam/Node_API_TicTrilhas#readme"
+}

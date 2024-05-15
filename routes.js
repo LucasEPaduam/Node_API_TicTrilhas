@@ -1,5 +1,6 @@
 import fs from 'fs';
 
+
 export default function rota(req, res, dado){
     res.setHeader('Content-type', 'application/json', 'utf-8');
 

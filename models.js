@@ -74,7 +74,7 @@ export async function updateProdutosById(id, dadosProduto){
             console.log(`Produto atualizado com sucesso.`, resultado);
         }
         return resultado; 
-               
+
     } catch(error){
         console.log(`Erro ao atualizar o produto`, error);
         throw error;
@@ -92,3 +92,89 @@ export async function deleteProdutosById(id){
     }
     
 }
+
+const Pedido = sequelize.define('pedido', {
+    id:{
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    valor_total:{
+        type: Sequelize.DOUBLE,
+        allowNull: false
+    },
+    status_pedido:{
+        type: Sequelize.STRING,
+        allowNull: false
+    }
+});
+
+const ProdutosPedido = sequelize.define('produtos_pedido', {
+    id:{
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    quantidade:{
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    preco:{
+        type: Sequelize.DOUBLE,
+        allowNull: false
+    }
+});
+
+Produto.belongsToMany(Pedido, { through: ProdutosPedido });
+Pedido.belongsToMany(Produto,  { through: ProdutosPedido });
+
+export async function criarPedido(novoPedido){
+    try{
+        const pedido = await Pedido.create({
+            valor_total: novoPedido.valorTotal,
+            status_pedido: 'ENCAMINHADO'
+        });
+
+        for (const prod of novoPedido.produtos){
+            const produto = await Produto.findByPk(prod.id);
+            if (produto) {
+                pedido.addProduto(produto, {through: {quantidade: prod.quantidade, preco: produto.preco}});
+            }
+            
+        }
+
+        console.log(`Pedido criado com sucesso.`);
+        return pedido;
+
+    }catch(error){
+        console.log(`Falha ao criar pedido.`, error);
+        throw error;  
+    }
+}
+
+export async function readPedidos(){
+
+    try{
+        const resultado = await ProdutosPedido.findAll();
+        console.log(`Pedido consultados com sucesso.`, resultado);
+        return resultado;
+
+    } catch(error){
+        console.log(`Erro ao buscar o pedido`, error);
+        throw error;
+    }    
+
+}
+
+export async function readPedidoById(id){
+    try{
+        const resultado = await Pedido.findByPk(id);
+        console.log(`Pedido consultado com sucesso.`, resultado);
+        return resultado;        
+    } catch(error){
+        console.log(`Erro ao buscar o pedido`, error);
+        throw error;
+    }
+    
+}
+

@@ -131,6 +131,11 @@ export default async function rota(req, res, dado){
                 const resposta = await updateProdutosById(id, produto);
                 
                 res.statusCode = 200;
+
+                if(!resposta){
+                    res.statusCode = 404;
+                }
+
                 res.end(JSON.stringify(resposta));
 
                 return;
@@ -179,9 +184,10 @@ export default async function rota(req, res, dado){
         const id = req.url.split('/')[2];
 
         try {
-            const resposta =  await deleteProdutosById(id);
+            const encontrado =  await deleteProdutosById(id);
 
             res.statusCode = 204;
+            
             res.end();
 
         } catch(error){
@@ -213,6 +219,10 @@ export default async function rota(req, res, dado){
             const resposta =  await readProdutosById(id);
 
             res.statusCode = 200;
+
+            if(!resposta){
+                res.statusCode = 404;
+            }
 
             res.end(JSON.stringify(resposta));
 

@@ -233,11 +233,38 @@ export default async function rota(req, res, dado){
             return;
 
         }
+        return;
+    }
 
+    if(req.method === 'GET' && req.url === '/produtos'){
 
-        
+        try {
+            const resposta =  await readProdutos();
+
+            res.statusCode = 200;
+
+            res.end(JSON.stringify(resposta));
+
+        } catch(error){
+
+            console.log('Falha ao buscar produtos', error);
+
+            res.statusCode = 500;
+
+            const resposta = {
+                error: {
+                    mensage: `Falha ao buscar produtos`
+                }
+            };
+
+            res.end(JSON.stringify(resposta));
+
+            return;
+
+        }
 
         return;
+
     }
 
 

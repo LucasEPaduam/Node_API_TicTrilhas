@@ -1,1 +1,16 @@
 Funcionou a inclusão
+
+
+        await criaProduto({nome: 'Notebook ASUS', preco: 5.550})
+        await criaProduto({nome: 'Notebook VAIO', preco: 6.200})
+
+        
+        await readProdutosById(4);
+        await readProdutosById(2);
+
+        await updateProdutosById(1, {preco: 7000.500});
+        await updateProdutosById(2, {preco: 5550.50});
+
+        await deleteProdutosById(2);
+
+        await readProdutos();

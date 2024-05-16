@@ -2,7 +2,7 @@ import http from "http";
 import fs from 'fs';
 import rota from './routes.js'
 import sqlite3 from 'sqlite3';
-import sequelize from './models.js';
+import { sequelize } from './models.js';
 
 
 const db = new sqlite3.Database('./tic.db', (error) => {
@@ -33,9 +33,9 @@ fs.readFile('./mensagem.txt', 'utf-8', (error, conteudo) => {
 
     });
 
-    function iniciaServidorHttp(conteudo){
+    async function iniciaServidorHttp(conteudo){
 
-        sequelize.sync();
+        await sequelize.sync();
 
         const servidor = http.createServer((req, res) => {
            

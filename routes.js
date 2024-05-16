@@ -181,6 +181,9 @@ export default async function rota(req, res, dado){
         try {
             const resposta =  await deleteProdutosById(id);
 
+            res.statusCode = 204;
+            res.end();
+
         } catch(error){
 
             console.log('Falha ao remover produto', error);
@@ -189,7 +192,39 @@ export default async function rota(req, res, dado){
 
             const resposta = {
                 error: {
-                    mensage: `Falha ao remover produto ${produto.nome}`
+                    mensage: `Falha ao remover produto ${id}`
+                }
+            };
+
+            res.end(JSON.stringify(resposta));
+
+            return;
+
+        }
+
+        return;
+    }
+
+    if(req.method === 'GET' && req.url.split('/')[1] === 'produtos' && !isNaN(req.url.split('/')[2])){
+
+        const id = req.url.split('/')[2];
+
+        try {
+            const resposta =  await readProdutosById(id);
+
+            res.statusCode = 200;
+
+            res.end(JSON.stringify(resposta));
+
+        } catch(error){
+
+            console.log('Falha ao buscar produto', error);
+
+            res.statusCode = 500;
+
+            const resposta = {
+                error: {
+                    mensage: `Falha ao buscar produto ${id}`
                 }
             };
 
@@ -200,9 +235,7 @@ export default async function rota(req, res, dado){
         }
 
 
-        res.statusCode = 204;
-
-        res.end();
+        
 
         return;
     }

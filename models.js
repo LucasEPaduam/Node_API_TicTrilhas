@@ -50,14 +50,11 @@ export async function readProdutos(){
 export async function readProdutosById(id){
     try{
         const resultado = await Produto.findByPk(id);
-        if(resultado != null){
-            console.log(`Produto consultado com sucesso.`, resultado);
-        } else{
-            console.log(`Produto não cadastrado.`);
-        }
-        
-    } catch{
+        console.log(`Produto consultado com sucesso.`, resultado);
+        return resultado;        
+    } catch(error){
         console.log(`Erro ao buscar o produto`, error);
+        throw error;
     }
     
 }

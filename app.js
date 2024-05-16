@@ -1,61 +1,48 @@
-import http from "http";
-import fs from 'fs';
-import rota from './routes.js'
 import sqlite3 from 'sqlite3';
-import { sequelize, readPedidoById, readPedidos, criarPedido } from './models.js';
+import { sequelize } from './models.js';
 
+import express from 'express';
 
-const db = new sqlite3.Database('./tic.db', (error) => {
-    if(error){
-        console.log('Falha ao inicializar o Banco de Dados', error);
-        return;
-    }
+const app = express();
 
-    console.log('Banco de Dados inicializado com sucesso');
+app.use((req, res, next) => {
+    console.log('Digite 9 para falar com o atendente');
+    next();
 });
 
-fs.writeFile('./mensagem.txt', 'Lucas Paduam TIC em Trilhas', 'utf-8', (error) => {
-    if(error){
-        console.log('Falha ao escrever o arquivo', error);
-        return;
-    }
-    console.log('Arquivo criado com sucesso');
+app.use((req, res, next) => {
+    console.log('problema resolvido');
+    res.send({mensagem: "Problema resolvido"})
 });
 
-fs.readFile('./mensagem.txt', 'utf-8', (error, conteudo) => {
-    if(error){
-        console.log('Falha ao ler o arquivo', error);
-        return;
-        }
-        console.log(`Conteúdo: ${conteudo}`);
+app.use((req, res, next) => {
+    console.log('Segue o link');
+});
+
+
+
+
+
+    async function inicializaApp(){
+
+        const db = new sqlite3.Database('./tic.db', (error) => {
+            if(error){
+                console.log('Falha ao inicializar o Banco de Dados', error);
+                return;
+            }
         
-        iniciaServidorHttp(conteudo);
-
-    });
-
-    async function iniciaServidorHttp(conteudo){
+            console.log('Banco de Dados inicializado com sucesso');
+        });
 
         await sequelize.sync();        
 
-       await criarPedido({ valorTotal: 10000, produtos: [{ id: 1, quantidade: 1}]});
-       await readPedidos();
-
-        const servidor = http.createServer((req, res) => {
-           
-            rota(req, res, { conteudo });
-        
-        });
-        
         const port = 3000;
-        const host = 'localhost';
         
-        servidor.listen(port, host, () => {
-            console.log(`Servidor executando em http://${host}:${port}/`);
-        });
-
+        app.listen(port);
+        
     }
 
-
+    inicializaApp();
 
 
 

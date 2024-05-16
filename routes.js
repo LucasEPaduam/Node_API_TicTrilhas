@@ -243,7 +243,7 @@ export default async function rota(req, res, dado){
             return;
 
         }
-        return;
+       
     }
 
     if(req.method === 'GET' && req.url === '/produtos'){

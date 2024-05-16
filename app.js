@@ -1,27 +1,22 @@
 import sqlite3 from 'sqlite3';
 import { sequelize } from './models.js';
+import bodyParser from 'body-parser';
 
 import express from 'express';
 
 const app = express();
 
-app.use((req, res, next) => {
-    console.log('Digite 9 para falar com o atendente');
-    next();
+app.use(bodyParser.json());
+
+app.use('/produtos', (req, res, next) => {
+    console.log('Rota produtos');
+    res.send({mensagem: "Rota produtos success"})
 });
 
 app.use((req, res, next) => {
     console.log('problema resolvido');
     res.send({mensagem: "Problema resolvido"})
 });
-
-app.use((req, res, next) => {
-    console.log('Segue o link');
-});
-
-
-
-
 
     async function inicializaApp(){
 
